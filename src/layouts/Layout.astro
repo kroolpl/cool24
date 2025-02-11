@@ -5,6 +5,7 @@ import '@phosphor-icons/web/regular';
 import '@phosphor-icons/web/duotone';
 import logoImage from '../assets/images/path7.png';
 import { ViewTransitions } from 'astro:transitions';
+import 'aos/dist/aos.css';
 
 interface Props {
   title: string;
@@ -37,15 +38,11 @@ const {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <ViewTransitions />
 
     <script>
-      declare const AOS: {
-        init: (config: any) => void;
-        refresh: () => void;
-      };
-
+      import AOS from 'aos';
+      
       document.addEventListener('astro:page-load', () => {
         AOS.init({
           duration: 800,
@@ -61,7 +58,6 @@ const {
   </head>
   <body class="bg-gray-50 relative">
     <slot />
-    <script is:inline src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   </body>
 </html>
 
