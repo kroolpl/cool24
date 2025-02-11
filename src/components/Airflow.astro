@@ -1,0 +1,152 @@
+<div class="airflow-container absolute inset-0 pointer-events-none">
+  <canvas id="airflow" class="w-full h-full opacity-30"></canvas>
+</div>
+
+<script>
+interface AirParticle {
+  x: number;
+  y: number;
+  startingY: number;
+  size: number;
+  opacity: number;
+  speedX: number;
+  waveLength: number;
+  waveAmplitude: number;
+  angularSpeed: number;
+  angle: number;
+  hue: number;
+  canvas: HTMLCanvasElement;
+}
+
+class AirParticle {
+  constructor(canvas: HTMLCanvasElement) {
+    this.canvas = canvas;
+    this.reset();
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 4 + 2;
+    this.opacity = Math.random() * 0.3 + 0.2;
+  }
+
+  reset() {
+    this.x = -10;
+    this.speedX = Math.random() * 2 + 1;
+    this.waveLength = Math.random() * 200 + 150;
+    this.waveAmplitude = Math.random() * 40 + 20;
+    this.startingY = Math.random() * this.canvas.height;
+    this.angularSpeed = Math.random() * 0.01 + 0.005;
+    this.angle = Math.random() * Math.PI * 2;
+    this.hue = Math.random() * 20 + 200;
+  }
+
+  update() {
+    this.x += this.speedX;
+    this.angle += this.angularSpeed;
+    this.y = this.startingY + Math.sin(this.angle) * this.waveAmplitude;
+
+    if (this.x > this.canvas.width + 10) {
+      this.reset();
+    }
+  }
+
+  draw(ctx: CanvasRenderingContext2D) {
+    const length = this.speedX * 150;
+    
+    const mainGradient = ctx.createLinearGradient(
+      this.x - length, this.y,
+      this.x, this.y
+    );
+    
+    const baseColor = `hsla(${this.hue}, 90%, 80%,`;
+    mainGradient.addColorStop(0, `${baseColor}0)`);
+    mainGradient.addColorStop(0.4, `${baseColor}${this.opacity})`);
+    mainGradient.addColorStop(0.6, `${baseColor}${this.opacity})`);
+    mainGradient.addColorStop(1, `${baseColor}0)`);
+
+    ctx.beginPath();
+    ctx.moveTo(this.x - length, this.y);
+    ctx.lineTo(this.x, this.y);
+    ctx.strokeStyle = mainGradient;
+    ctx.lineWidth = this.size;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = `hsla(${this.hue}, 90%, 80%, ${this.opacity})`;
+  }
+}
+
+function initAirflow() {
+  const canvas = document.getElementById('airflow') as HTMLCanvasElement;
+  if (!canvas) return;
+  
+  document.querySelectorAll('#airflow').forEach((elem, index) => {
+    if (index > 0) elem.remove();
+  });
+  
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  const particles: AirParticle[] = [];
+  const isMobile = window.innerWidth < 768;
+  const numberOfParticles = isMobile ? 15 : 30;
+
+  function setCanvasSize() {
+    if (!canvas) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  setCanvasSize();
+  window.addEventListener('resize', setCanvasSize);
+
+  for (let i = 0; i < numberOfParticles; i++) {
+    const particle = new AirParticle(canvas);
+    particle.x = (Math.random() * canvas.width * 1.5) - canvas.width * 0.25;
+    particles.push(particle);
+  }
+
+  let lastTime = 0;
+  const fps = 60;
+  const interval = 1000 / fps;
+
+  function animate(currentTime: number) {
+    if (!ctx || !canvas) return;
+    
+    const delta = currentTime - lastTime;
+    if (delta > interval) {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach(particle => {
+        particle.update();
+        particle.draw(ctx);
+      });
+      
+      lastTime = currentTime - (delta % interval);
+    }
+    
+    requestAnimationFrame(animate);
+  }
+
+  animate(0);
+
+  return () => {
+    window.removeEventListener('resize', setCanvasSize);
+  };
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAirflow);
+} else {
+  initAirflow();
+}
+
+document.addEventListener('astro:page-load', initAirflow);
+</script>
+
+<style>
+.airflow-container {
+  background: transparent;
+  overflow: hidden;
+}
+</style> 

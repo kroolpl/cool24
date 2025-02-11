@@ -1,0 +1,40 @@
+---
+const services = [
+  {
+    title: "Commercial AC",
+    description: "Keep your business running cool with our expert commercial air conditioning services.",
+    icon: "buildings"
+  },
+  {
+    title: "Restaurant Cooling",
+    description: "Specialized cooling solutions for kitchens and dining areas.",
+    icon: "coffee"
+  },
+  {
+    title: "Hotel Systems",
+    description: "Comprehensive cooling systems for hotels and hospitality venues.",
+    icon: "bed"
+  },
+  {
+    title: "Home AC",
+    description: "Residential air conditioning installation and maintenance.",
+    icon: "house"
+  }
+];
+---
+<section id="services" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12" data-aos="fade-up">Our Services</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {services.map(service => (
+        <div class="bg-white p-8 rounded-xl shadow-lg hover-lift" data-aos="fade-up">
+          <div class="mb-6 text-primary">
+            <i class={`ph-duotone ph-${service.icon} text-4xl`}></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">{service.title}</h3>
+          <p class="text-gray-600 leading-relaxed">{service.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,131 @@
+---
+import '@fontsource/inter';
+import '@fontsource/space-grotesk';
+import '@phosphor-icons/web/regular';
+import '@phosphor-icons/web/duotone';
+import logoImage from '../assets/images/path7.png';
+import { ViewTransitions } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { 
+  title,
+  description = "Cooling Services 24 - Expert Air Conditioning, Refrigeration & Ventilation Services in London, Berkshire & Hampshire"
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href={logoImage.src} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Add Open Graph tags -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    
+    <!-- Add Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <ViewTransitions />
+
+    <script>
+      declare const AOS: {
+        init: (config: any) => void;
+        refresh: () => void;
+      };
+
+      document.addEventListener('astro:page-load', () => {
+        AOS.init({
+          duration: 800,
+          once: true,
+          disable: 'mobile'
+        });
+      });
+
+      document.addEventListener('astro:after-swap', () => {
+        AOS.refresh();
+      });
+    </script>
+  </head>
+  <body class="bg-gray-50 relative">
+    <slot />
+    <script is:inline src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  </body>
+</html>
+
+<style is:global>
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+  }
+
+  .hover-scale {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+
+  .hover-lift {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  /* View Transitions animations */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  /* Fade transition */
+  ::view-transition-old(root) {
+    opacity: 1;
+  }
+  ::view-transition-new(root) {
+    opacity: 0;
+  }
+  
+  :root::view-transition-container(root) {
+    opacity: 1;
+  }
+  
+  :root::view-transition-old(root),
+  :root::view-transition-new(root) {
+    animation: 0.5s cubic-bezier(0.4, 0, 0.2, 1) both fade;
+  }
+  
+  @keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Persist logo spin animation across page transitions */
+  ::view-transition-group(logo) {
+    animation: none;
+  }
+  
+  ::view-transition-old(logo),
+  ::view-transition-new(logo) {
+    animation: none;
+  }
+</style>

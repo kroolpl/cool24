@@ -1,0 +1,113 @@
+---
+---
+<div class="snow-container absolute inset-0 pointer-events-none">
+  <canvas id="snow" class="w-full h-full opacity-40"></canvas>
+</div>
+
+<script>
+class Snowflake {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 3 + 1;
+    this.speedX = Math.random() * 0.5 - 0.25;
+    this.speedY = Math.random() * 0.5 + 0.5;
+    this.opacity = Math.random() * 0.5 + 0.3;
+  }
+
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    if (this.y > this.canvas.height) {
+      this.y = 0;
+      this.x = Math.random() * this.canvas.width;
+    }
+    if (this.x > this.canvas.width) {
+      this.x = 0;
+    }
+    if (this.x < 0) {
+      this.x = this.canvas.width;
+    }
+  }
+
+  draw(ctx) {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+function initSnow() {
+  const canvas = document.getElementById('snow');
+  if (!canvas) return;
+  
+  // Clean up any existing snow canvases
+  document.querySelectorAll('#snow').forEach((elem, index) => {
+    if (index > 0) elem.remove();
+  });
+  
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  const snowflakes = [];
+  const isMobile = window.innerWidth < 768;
+  const numberOfSnowflakes = isMobile ? 25 : 50;
+
+  function setCanvasSize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  setCanvasSize();
+  window.addEventListener('resize', setCanvasSize);
+
+  for (let i = 0; i < numberOfSnowflakes; i++) {
+    snowflakes.push(new Snowflake(canvas));
+  }
+
+  // Use requestAnimationFrame throttling
+  let lastTime = 0;
+  const fps = 30;
+  const interval = 1000 / fps;
+
+  function animate(currentTime) {
+    if (!ctx) return;
+    
+    const delta = currentTime - lastTime;
+    if (delta > interval) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      snowflakes.forEach(snowflake => {
+        snowflake.update();
+        snowflake.draw(ctx);
+      });
+      
+      lastTime = currentTime - (delta % interval);
+    }
+    
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+// Wait for the DOM to be fully loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSnow);
+} else {
+  initSnow();
+}
+
+// Also initialize on Astro page transitions
+document.addEventListener('astro:page-load', initSnow);
+</script>
+
+<style>
+.snow-container {
+  background: transparent;
+  overflow: hidden;
+}
+</style>

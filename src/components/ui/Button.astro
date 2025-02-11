@@ -1,0 +1,38 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'outline';
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+}
+
+const { variant = 'primary', href, type, class: className } = Astro.props;
+---
+
+{href ? (
+  <a
+    href={href}
+    class:list={[
+      'inline-flex items-center px-4 py-2 rounded-lg transition-colors hover-scale',
+      variant === 'primary' && 'bg-primary text-white hover:bg-secondary',
+      variant === 'secondary' && 'bg-secondary text-white hover:bg-primary',
+      variant === 'outline' && 'border-2 border-primary text-primary hover:bg-primary hover:text-white',
+      className
+    ]}
+  >
+    <slot />
+  </a>
+) : (
+  <button
+    type={type}
+    class:list={[
+      'inline-flex items-center px-4 py-2 rounded-lg transition-colors hover-scale',
+      variant === 'primary' && 'bg-primary text-white hover:bg-secondary',
+      variant === 'secondary' && 'bg-secondary text-white hover:bg-primary',
+      variant === 'outline' && 'border-2 border-primary text-primary hover:bg-primary hover:text-white',
+      className
+    ]}
+  >
+    <slot />
+  </button>
+)} 

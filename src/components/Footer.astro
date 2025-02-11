@@ -1,0 +1,146 @@
+---
+const currentYear = new Date().getFullYear();
+import logoImage from '../assets/images/path7.png';
+import { Image } from 'astro:assets';
+
+const links = {
+  company: [
+    { name: "About", href: "#about" },
+    { name: "Services", href: "#services" },
+    { name: "Contact", href: "#contact" },
+  ],
+  services: [
+    { name: "Commercial AC", href: "#services" },
+    { name: "Restaurant Cooling", href: "#services" },
+    { name: "Hotel Systems", href: "#services" },
+    { name: "Home AC", href: "#services" },
+  ],
+  social: [
+    { name: "Instagram", href: "https://instagram.com/coolingservices24", icon: "instagram-logo" },
+    { name: "Facebook", href: "https://facebook.com/coolingservices24", icon: "facebook-logo" },
+  ]
+};
+---
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+  <div class="container mx-auto px-4">
+    <!-- Main Footer Content -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      <!-- Company Info -->
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <Image
+            src={logoImage}
+            alt="Cooling Services 24 Logo"
+            width={40}
+            height={40}
+            class="w-10 h-10 animate-spin-slow"
+          />
+          Cooling Services<span class="text-primary">24</span>
+        </h3>
+        <p class="text-gray-400 mb-4">
+          Expert air conditioning, refrigeration, and ventilation services available 24/7.
+        </p>
+        <div class="flex space-x-4">
+          {links.social.map(({ name, href, icon }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gray-400 hover:text-primary transition-colors hover-scale"
+              aria-label={name}
+            >
+              <i class={`ph-duotone ph-${icon} text-2xl`}></i>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+        <ul class="space-y-2">
+          {links.company.map(({ name, href }) => (
+            <li>
+              <a
+                href={href}
+                class="text-gray-400 hover:text-primary transition-colors hover-lift inline-block"
+              >
+                {name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Our Services</h4>
+        <ul class="space-y-2">
+          {links.services.map(({ name, href }) => (
+            <li>
+              <a
+                href={href}
+                class="text-gray-400 hover:text-primary transition-colors hover-lift inline-block"
+              >
+                {name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
+        <ul class="space-y-3">
+          <li class="flex items-center space-x-2">
+            <i class="ph-duotone ph-phone text-primary"></i>
+            <a href="tel:+441234567890" class="text-gray-400 hover:text-primary transition-colors">
+              +44 123 456 7890
+            </a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="ph-duotone ph-envelope text-primary"></i>
+            <a href="mailto:info@coolingservices24.com" class="text-gray-400 hover:text-primary transition-colors">
+              info@coolingservices24.com
+            </a>
+          </li>
+          <li class="flex items-start space-x-2">
+            <i class="ph-duotone ph-map-pin text-primary mt-1"></i>
+            <span class="text-gray-400">
+              Bracknell, serving London, Berkshire & Hampshire
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="border-t border-gray-800 pt-8">
+      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <p class="text-gray-400 text-sm">
+          © {currentYear} Cooling Services24. All rights reserved.
+        </p>
+        <div class="flex space-x-6 text-sm">
+          <a href="/privacy" class="text-gray-400 hover:text-primary transition-colors">Privacy Policy</a>
+          <a href="/terms" class="text-gray-400 hover:text-primary transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 2s linear infinite;
+  }
+</style>

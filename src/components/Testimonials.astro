@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+
+const testimonials = [
+  {
+    name: "Sarah Thompson",
+    role: "Hotel Manager",
+    content: "Cooling Services24 has been maintaining our hotel's AC systems for over 2 years. Their 24/7 service is invaluable - they're always there when we need them. Highly professional team!",
+    image: "https://i.pravatar.cc/150?img=47&u=testimonial1"
+  },
+  {
+    name: "James Wilson",
+    role: "Restaurant Owner",
+    content: "The team installed a new cooling system in our restaurant kitchen. The difference is incredible! Our staff is more comfortable, and they were so efficient during installation.",
+    image: "https://i.pravatar.cc/150?img=68&u=testimonial2"
+  },
+  {
+    name: "Emily Chen",
+    role: "Office Manager",
+    content: "Regular maintenance from Cooling Services24 keeps our office perfectly climate-controlled year-round. Their technicians are always punctual and professional.",
+    image: "https://i.pravatar.cc/150?img=45&u=testimonial3"
+  }
+];
+---
+<section class="py-20 bg-gradient-to-b from-white to-cyan-50">
+  <div class="container mx-auto px-4">
+    <div class="max-w-3xl mx-auto text-center mb-12" data-aos="fade-up">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
+      <p class="text-gray-600 text-lg">Don't just take our word for it - hear from our satisfied customers</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      {testimonials.map((testimonial) => (
+        <div 
+          class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          <div class="flex items-center mb-4">
+            <Image
+              src={testimonial.image}
+              alt={testimonial.name}
+              width={48}
+              height={48}
+              class="w-12 h-12 rounded-full object-cover mr-4"
+            />
+            <div>
+              <h3 class="font-bold text-gray-900">{testimonial.name}</h3>
+              <p class="text-sm text-gray-600">{testimonial.role}</p>
+            </div>
+          </div>
+          
+          <blockquote>
+            <i class="ph-duotone ph-quotes text-4xl text-primary/20 mb-2"></i>
+            <p class="text-gray-600 leading-relaxed">
+              {testimonial.content}
+            </p>
+          </blockquote>
+          
+          <div class="mt-4 flex items-center">
+            <div class="flex text-yellow-400">
+              {[...Array(5)].map(() => (
+                <i class="ph-duotone ph-star"></i>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
