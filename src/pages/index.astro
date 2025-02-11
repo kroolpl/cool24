@@ -6,12 +6,49 @@ import Services from '../components/Services.astro';
 import Testimonials from '../components/Testimonials.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
+import { Image } from 'astro:assets';
+
+// Import brand logos
+import logo1 from '../assets/images/logos/f22629d0e9362521532e1a0e22b1bc90.png';
+import logo2 from '../assets/images/logos/pngwing.com.png';
+import logo3 from '../assets/images/logos/pngegg.png';
+import logo4 from '../assets/images/logos/kisspng-fujitsu-logo-toshiba-industria-elettronica-in-giap-fujitsu-inelco-hunter-ltd-5b75061f455929.1774338815343959352841.png';
+
+const brands = [
+  { name: "Mitsubishi", logo: logo1 },
+  { name: "Daikin", logo: logo2 },
+  { name: "Toshiba", logo: logo3 },
+  { name: "Fujitsu", logo: logo4 },
+];
 ---
 
 <Layout title="Cooling Services 24 - Expert Air Conditioning & Refrigeration Services">
   <Header />
   <main>
     <Hero />
+    
+    <!-- Brands Section -->
+    <section class="py-12 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-2xl text-center text-gray-600 mb-8" data-aos="fade-up">
+          Authorized Installer of Leading Brands
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center" data-aos="fade-up">
+          {brands.map((brand) => (
+            <div class="w-full max-w-[200px] h-24 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all duration-300 hover:scale-105">
+              <Image
+                src={brand.logo}
+                alt={`${brand.name} logo`}
+                class="object-contain w-full h-full"
+                width={200}
+                height={96}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <Services />
     <Testimonials />
     <Contact />
