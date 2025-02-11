@@ -4,7 +4,7 @@ const isHomePage = currentPath === '/';
 import logoImage from '../assets/images/path7.png';
 import { Image } from 'astro:assets';
 ---
-<header class="fixed w-full bg-white/90 backdrop-blur-sm shadow-sm z-40" role="banner">
+<header class="fixed w-full bg-white/90 backdrop-blur-sm shadow-sm z-40" role="banner" transition:persist>
   <div class="container mx-auto px-4 py-4 flex justify-between items-center">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:p-2">
       Skip to main content
@@ -28,8 +28,7 @@ import { Image } from 'astro:assets';
       class="hidden md:flex space-x-6" 
       role="navigation" 
       aria-label="Main navigation"
-      transition:name="main-nav"
-      transition:animate="slide"
+      transition:persist
     >
       <a 
         href="/" 
