@@ -9,7 +9,8 @@ import { Image } from 'astro:assets';
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:p-2">
       Skip to main content
     </a>
-    <a href="/" class="text-2xl font-bold text-primary hover-scale flex items-center gap-2 group">
+    <!-- Improved logo typography -->
+    <a href="/" class="text-2xl tracking-tight font-extrabold text-primary hover-scale flex items-center gap-3 group">
       <Image
         src={logoImage}
         alt="Cooling Services 24 Logo"
@@ -18,23 +19,23 @@ import { Image } from 'astro:assets';
         class="w-10 h-10"
         transition:name="logo"
       />
-      <span transition:name="brand-text">
-        Cooling Services<span class="text-secondary">24</span>
+      <span transition:name="brand-text" class="font-sans">
+        Cooling Services<span class="text-secondary font-bold ml-0.5">24</span>
       </span>
     </a>
     
-    <!-- Desktop Navigation -->
+    <!-- Improved Desktop Navigation typography -->
     <nav 
-      class="hidden md:flex space-x-6" 
+      class="hidden md:flex space-x-8" 
       role="navigation" 
       aria-label="Main navigation"
       transition:persist
     >
       <a 
         href="/" 
-        class={`flex items-center space-x-1 hover:text-primary transition-colors hover-lift ${currentPath === '/' ? 'text-primary' : 'text-gray-600'}`}
+        class={`flex items-center space-x-2 hover:text-primary transition-colors hover-lift font-medium text-base tracking-wide ${currentPath === '/' ? 'text-primary' : 'text-gray-700'}`}
       >
-        <i class="ph-duotone ph-house"></i>
+        <i class="ph-duotone ph-house text-lg"></i>
         <span>Home</span>
       </a>
       <a 
@@ -254,4 +255,25 @@ import { Image } from 'astro:assets';
     position: fixed;
     width: 100%;
   }
+    <style>
+    // ...existing styles...
+  
+    /* Typography enhancements */
+    .font-sans {
+      font-feature-settings: "liga" 1, "kern" 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  
+    nav a {
+      letter-spacing: 0.01em;
+      font-feature-settings: "salt" 1, "ss01" 1;
+    }
+  
+    /* Hover animation for nav items */
+    nav a:hover span {
+      transform: translateY(-1px);
+      transition: transform 0.2s ease;
+    }
+  </style>
 </style>
